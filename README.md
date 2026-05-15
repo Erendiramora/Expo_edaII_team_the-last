@@ -8,6 +8,8 @@ Alumnos
 La API básica (omp_init_lock, omp_set_lock, omp_unset_lock, omp_destroy_lock).
 Cuándo critical global se queda corto y se necesitan locks independientes.
 Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-->
+## 🔗 Presentación:
+https://canva.link/0b1230f7sty6oc0
 ## Resultados
 
 ## Conclusiones 
