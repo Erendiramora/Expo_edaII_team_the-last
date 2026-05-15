@@ -1,2 +1,16 @@
-# Expo_edaII_equipo5
-Exposición final del equipo 5 para EDAII 
+# Expo_edaII_ Locks explícitos
+Alumnos
+- 322112364 - Cordova Villar Mario Alberto
+- 322048399 - Morales Garcia Erendira Sophia
+- 321206954 - Jonathan Emanuel Aguilar Campos
+##  Contexto y teoria
+<!--Tipos: omp_lock_t, omp_nest_lock_t.
+La API básica (omp_init_lock, omp_set_lock, omp_unset_lock, omp_destroy_lock).
+Cuándo critical global se queda corto y se necesitan locks independientes.
+Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-->
+## Resultados
+
+## Conclusiones 
+<!--cuándo conviene usarlo-->
+
+## Referencias
