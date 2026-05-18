@@ -7,6 +7,7 @@ Alumnos
 <!--7. Sistemas de archivos y almacenamiento
 Bloquean archivos o segmentos mientras son escritos para evitar que otro proceso lea datos incompletos o inconsistentes.-->
 ##  Contexto y teoria
+https://claude.ai/share/93749c9f-ddb1-4b70-be9b-0edcb3669374 
 <!--Tipos: omp_lock_t, omp_nest_lock_t.
 La API básica (omp_init_lock, omp_set_lock, omp_unset_lock, omp_destroy_lock).
 Cuándo critical global se queda corto y se necesitan locks independientes.
