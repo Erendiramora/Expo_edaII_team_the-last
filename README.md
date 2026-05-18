@@ -11,8 +11,8 @@ Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-
 ## 🔗 Presentación:
 https://canva.link/0b1230f7sty6oc0
 ## Resultados
-
+<!--profundizar mas en esta parte-->
 ## Conclusiones 
-<!--cuándo conviene usarlo-->
+<!--cuándo conviene usarlo, para que es mas util, y en que cosas no es tan eficiente-->
 
 ## Referencias
