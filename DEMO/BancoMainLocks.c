@@ -3,7 +3,7 @@
 
 int saldo = 1000;
 omp_lock_t lock;
-omp_nest_lock_t nest_lock;  // ← declaras el nest lock global
+omp_nest_lock_t nest_lock;  
 
 void retirar() {
     omp_set_lock(&lock);
@@ -18,13 +18,12 @@ void consultar() {
     omp_unset_lock(&lock);
 }
 
-// ← función nueva que demuestra la reentrada con nest_lock
 void retirar_y_consultar() {
-    omp_set_nest_lock(&nest_lock);        // primera adquisición
+    omp_set_nest_lock(&nest_lock);       
         saldo -= 100;
         printf("[NEST] Retiro hecho.\n");
 
-        omp_set_nest_lock(&nest_lock);    // reentrada (NO hace deadlock)
+        omp_set_nest_lock(&nest_lock);   
             printf("[NEST] Saldo tras retiro: $%d\n", saldo);
         omp_unset_nest_lock(&nest_lock);
 
@@ -33,7 +32,7 @@ void retirar_y_consultar() {
 
 int main() {
     omp_init_lock(&lock);
-    omp_init_nest_lock(&nest_lock);       // ← inicializas el nest lock
+    omp_init_nest_lock(&nest_lock);     
 
     printf("=== Demo con omp_lock_t ===\n");
     #pragma omp parallel sections num_threads(2)
@@ -56,7 +55,7 @@ int main() {
         #pragma omp section
         {
             for (int i = 0; i < 3; i++)
-                retirar_y_consultar();    // ← aquí se ejecuta
+                retirar_y_consultar();   
         }
         #pragma omp section
         {
@@ -66,6 +65,6 @@ int main() {
     }
 
     omp_destroy_lock(&lock);
-    omp_destroy_nest_lock(&nest_lock);    // ← destruyes el nest lock
+    omp_destroy_nest_lock(&nest_lock);   
     return 0;
 }
