@@ -26,6 +26,10 @@ https://canva.link/0b1230f7sty6oc0
 <!--profundizar mas en esta parte-->
 ![resultados locks](Imagenes/resultados_locks.png)
 ![resultados nest lock](Imagenes/resultados_nest_locks.png)
+
+
+El uso de omp_lock_t y omp_nest_lock_t demostró ser crucial para evitar condiciones de carrera y proteger los datos compartidos. Mientras que omp_lock_t controló con éxito las operaciones de saldo mediante exclusión mutua estricta, omp_nest_lock_t resolvió el problema de las llamadas anidadas, permitiendo que un hilo reingrese al mismo candado sin bloquearse a sí mismo. Gracias a estas herramientas, el saldo final de la cuenta permaneció intacto y sin errores, lo que evidencia que una sincronización adecuada es indispensable al programar en paralelo.
+
 ## Conclusiones 
 <!--cuándo conviene usarlo, para que es mas util, y en que cosas no es tan eficiente-->
 
