@@ -16,17 +16,30 @@ Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-
 
   Critical tiene un poder increible al momento de generar un bloque de código que sea estatico y mantenga a raya los hilos, pero tiene dos grandes defectos que arruinan       esta magia por completo:
   
-    ### Muy estricto:
-      Uno de los problemas que tenemos al momento de generar un bloque critical es que estamos condicionados a que todo se tenga que trabajar en un mismo lugar, es decir,
-      no podemos tener dos secciones CRITICAL simultaneas (Lo vuelve ineficiente en trabajos grandes), y al estar condicionado a un bloque entre llaves {....} estrictamente
-      , impidiendo tratar de manera flexible el programa
+  ### Muy estricto:
+  Uno de los problemas que tenemos al momento de generar un bloque critical es que estamos condicionados a que todo se tenga   que trabajar en un mismo lugar, es decir, no podemos tener dos secciones CRITICAL simultaneas (Lo vuelve ineficiente en      trabajos grandes), y al estar condicionado a un bloque entre llaves {....} estrictamente, impidiendo tratar de manera        flexible el programa
       
-    ### Problema de recursividad:
-      Si existe una función recursiva y dentro de ella tiene un bloque critical, entrara por primera vez de manera adecuada, sin embargo, al moment0 de querer realizar la
-      segunda iteracion, el hilo volvera a tratar de entrar al bloque critical, al estar ya ocupadon (por si mismo), el programa muere en un deadlock.
+  ### Problema de recursividad:
+  Si existe una función recursiva y dentro de ella tiene un bloque critical, entrara por primera vez de manera adecuada, sin   embargo, al moment0 de querer realizar la segunda iteracion, el hilo volvera a tratar de entrar al bloque critical, al       estar ya ocupadon (por si mismo), el programa   muere en un deadlock.
       
 ### API 
+  Para comprender la api de omp_lock_ y omp_nest_lock_t, tenemos que entender primeramente el CICLO DE VIDA de un lock.
+
+  ### omp_init_lock_ y omp_init_nest_lock_t (inicialización):
+
+  Esta función marca el inicio del candado, construyen la estrucutura de omp (prepara el espacio en memoria RAM).
+
+  en omp_init_lock, Toma el espacio de memoria apuntado por lock (que antes tenía basura), limpia los residuos de datos y      establece su estado interno como 0 (Desbloqueado/Libre). También inicializa una cola de hilos (wait queue) inicialmente      vacía. Si un hilo intenta usar el candado antes de esta función, el programa lanzará un error de segmentación                (Segmentation Fault) porque la dirección de memoria apunta a datos corruptos.
+
+  en omp_init_nest_lock, se sigue la misma lógica anterior, añadiendo 2 caracteristicas primordiales:
+    -El identificador del hilo dueño se establece en un valor nulo/vacío.
+    -El contador de anidamiento se establece explícitamente en 0.
+  
+
+
 ### omp_lock_t
+
+  
 ### omp_nest_lock_t
 ### Diferencias
 |caracteristica|omp_lock_t|omp_nest_lock_t|
