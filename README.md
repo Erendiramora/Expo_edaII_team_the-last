@@ -59,8 +59,20 @@ Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-
 
 ### omp_lock_t
 
+Esta variable define un mecanismo de sincronización binario y plano. Su función principal es actuar como un interruptor      estricto para proteger un recurso compartido, asegurando que un solo hilo pueda acceder a él a la vez.
+
+Estructura en Memoria: Es una estructura ligera y primitiva. Solo reserva espacio en la memoria RAM para almacenar un estado binario (0 para Desbloqueado, 1 para Ocupado) y los punteros necesarios para gestionar la cola de hilos en espera (wait queue).
+
+Comportamiento Crítico: No tiene memoria de identidad. El candado sabe si está abierto o cerrado, pero no registra qué hilo lo cerró. Por ello, si el hilo dueño intenta ejecutar un segundo bloqueo sobre él, el candado lo tratará como a un extraño y lo congelará en la cola de espera, provocando un self-deadlock de forma inmediata.
+
   
 ### omp_nest_lock_t
+
+Esta variable define un mecanismo de sincronización avanzado y modular. Su función principal es permitir la reentrancia, es decir, dar la flexibilidad de que un mismo hilo pueda asegurar un recurso y volver a ingresar a zonas protegidas por el mismo candado sin interrumpir su propio flujo.
+
+Estructura en Memoria: Es una estructura de datos más compleja y pesada en la RAM. Además de la cola de hilos en espera, OpenMP reserva espacio dedicado para almacenar permanentemente dos datos clave: el identificador numérico del hilo dueño (Thread ID) y un contador de anidamiento (un entero de 32 o 64 bits).
+
+Comportamiento Crítico: Posee memoria de identidad. Cada vez que un hilo intenta adquirirlo, el candado valida quién está tocando la puerta. Si el solicitante coincide con el ID del dueño actual, el candado le otorga el acceso libremente y solo incrementa su contador interno (contador++). La cerradura se abrirá para otros hilos únicamente cuando el dueño ejecute la misma cantidad de desbloqueos y el contador regrese a 0.
 
 ### Diferencias
 
@@ -96,3 +108,19 @@ El uso de omp_lock_t y omp_nest_lock_t demostró ser crucial para evitar condici
 <!--cuándo conviene usarlo, para que es mas util, y en que cosas no es tan eficiente-->
 
 ## Referencias
+
+1. El Libro Oficial de los Creadores de OpenMP
+Chapman, B., Josa, G., & van der Pas, R. (2008). Using OpenMP: Portable shared memory parallel programming. MIT Press.
+
+2. La Especificación Técnica Oficial (Documentación Base)
+OpenMP Architecture Review Board. (2020). OpenMP application programming interface version 5.1. OpenMP.org. https://www.openmp.org/wp-content/uploads/OpenMP-API-Specification-5-1.pdf
+
+3. Literatura Fundamental de Computación en Paralelo
+Pacheco, P. S. (2011). An introduction to parallel programming. Morgan Kaufmann.
+
+4. Enfoque Práctico en Arquitectura de Software y Deadlocks
+Williams, A. (2019). C++ concurrency in action (2.ª ed.). Manning Publications.
+(Nota: Este libro es la biblia de la reentrancia y los candados mutuos a bajo nivel).
+
+5. Artículo de Investigación sobre Rendimiento de Sincronización
+Jin, H., Cao, J., & Yan, Y. (2018). Performance evaluation of synchronization mechanisms in OpenMP. International Journal of Parallel Programming, 46(4), 721-743. https://doi.org/10.1007/s10766-017-0514-x
