@@ -63,16 +63,25 @@ Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-
 ### omp_nest_lock_t
 
 ### Diferencias
-------------------------------------------------------------------------------------------------------
-|caracteristica|omp_lock_t                     |omp_nest_lock_t                                      |
-------------------------------------------------------------------------------------------------------
-| Deadlock     | no soluciiona                 | soluciona deadlock recursivo                        |
-------------------------------------------------------------------------------------------------------
-| Aplicaciones | programas pequeños            | programas más especializados                        |
-------------------------------------------------------------------------------------------------------
-| Validaciones | Suelta el hilo y vuelve al set| Aplica el set nuevamente hasta que el contador sea 0|
-------------------------------------------------------------------------------------------------------
-|carac 1 | h | j| 
+
+
+En omp_lock
+
+1. El metodo unset, libera el candado y espera nuevamente otro hilo para otro set
+
+2. El metodo set simplemente bloquea el candado, su problema principal, caer en dead lock por recursividad
+
+3. Valida unicamente que el candado este abierto o cerrado
+
+En omp_nest_lock
+
+1. El metodo unset solamente soltara o liberara el candado hasta que el contador sea igual a 0.
+
+2. El metodo set además de bloquear el candado, valida el id del hilo, y en caso de recursividad, impide el deadlock
+
+3. Además de validar el abierto o cerrado, valida el id del hilo.
+
+
 ## 🔗 Presentación:
 https://canva.link/0b1230f7sty6oc0
 ## Resultados
