@@ -23,7 +23,7 @@ Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-
   Si existe una función recursiva y dentro de ella tiene un bloque critical, entrara por primera vez de manera adecuada, sin   embargo, al moment0 de querer realizar la segunda iteracion, el hilo volvera a tratar de entrar al bloque critical, al       estar ya ocupadon (por si mismo), el programa muere en un deadlock.
       
 ### API 
-  ### omp_init_lock_ y omp_init_nest_lock_t (inicialización):
+  ### omp_init_lock_ y omp_init_nest_lock (inicialización):
 
   Esta función marca el inicio del candado, construyen la estrucutura de omp (prepara el espacio en memoria RAM).
 
@@ -32,8 +32,18 @@ Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-
   en omp_init_nest_lock, se sigue la misma lógica anterior, añadiendo 2 caracteristicas primordiales:
     -El identificador del hilo dueño se establece en un valor nulo/vacío.
     -El contador de anidamiento se establece explícitamente en 0.
-  
 
+  ### omp_set_lock_ y omp_set_nest_lock
+
+  Tanto en omp_set_lock_ y omp_set_nest_lock se realiza una inspección del candado, si este esta desbloqueado (0), lo cambia   automaticamente a ocupado (1), y continua con el proceso de forma normal (cambia a un estado de suspended-bloqued).
+
+  Sin embargo omp_set_nest_lock tiene diferencias, al momento de la validación del candado, estas son.
+
+  1. Si el candado está libre (Contador = 0): El hilo toma el candado, el sistema registra su ID de hilo como "Dueño" y el        contador sube a 1.
+
+  2. Si el candado está ocupado, pero el dueño es EL MISMO hilo: OpenMP lo deja pasar sin detenerlo e incrementa el contador     interno (contador++).
+
+  3. Si el candado está ocupado por OTRO hilo: El hilo actual se congela en la cola de espera exactamente igual que en el         candado simple.
 
 ### omp_lock_t
 
