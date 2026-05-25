@@ -6,6 +6,12 @@ Alumnos
 ## Introducciòn
 <!--7. Sistemas de archivos y almacenamiento
 Bloquean archivos o segmentos mientras son escritos para evitar que otro proceso lea datos incompletos o inconsistentes.-->
+
+En la era del cómputo multiprocesador, la programación en paralelo se ha convertido en el pilar fundamental para maximizar el rendimiento de cualquier sistema de software. OpenMP (Open Multi-Processing) destaca en este ámbito como una de las herramientas más potentes y utilizadas para diseñar aplicaciones capaces de ejecutar múltiples hilos de procesamiento de forma simultánea. Sin embargo, esta ganancia en velocidad introduce un desafío crítico: la gestión segura de la memoria compartida.
+
+Cuando múltiples hilos intentan leer y escribir sobre un mismo recurso al mismo milisegundo, se provocan inconsistencias de datos conocidas como condiciones de carrera (race conditions). Para evitar que el software colapse, OpenMP provee mecanismos de sincronización. Si bien directivas estáticas como #pragma omp critical ofrecen una solución simple para delimitar zonas seguras en bloques de código cuadrados, su rigidez extrema y su incompatibilidad con algoritmos modulares o recursivos limitan drásticamente su utilidad en la ingeniería de software a gran escala.
+
+Para romper con estas limitaciones y otorgar un control milimétrico al programador, OpenMP expone su API de candados de bajo nivel a través de las variables omp_lock_t (candados simples) y omp_nest_lock_t (candados anidados). El propósito de la presente investigación es analizar a fondo la estructura en memoria de ambos mecanismos, describir el comportamiento de sus funciones principales (init, set, unset) y evaluar su relación directa con el enemigo más temido de la concurrencia: el deadlock o bloqueo mutuo.
 ##  Contexto y teoria
 https://claude.ai/share/93749c9f-ddb1-4b70-be9b-0edcb3669374 
 <!--Tipos: omp_lock_t, omp_nest_lock_t.
