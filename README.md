@@ -62,11 +62,10 @@ Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-
   
 ### omp_nest_lock_t
 ### Diferencias
-|caracteristica|omp_lock_t|omp_nest_lock_t|
-| ------------ | --------- | --------------|
-| ------------ | --------- | --------------|
-| ------------ | --------- | --------------|
-| ------------ | --------- | --------------|
+|caracteristica|omp_lock_t                     |omp_nest_lock_t                                      |
+| Deadlock     | no soluciiona                 | soluciona deadlock recursivo                        |
+| Aplicaciones | programas pequeños            | programas más especializados                        |
+| Validaciones | Suelta el hilo y vuelve al set| Aplica el set nuevamente hasta que el contador sea 0|
 |carac 1 | h | j| 
 ## 🔗 Presentación:
 https://canva.link/0b1230f7sty6oc0
