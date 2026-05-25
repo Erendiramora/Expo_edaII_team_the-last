@@ -64,6 +64,9 @@ Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-
 ### Diferencias
 |caracteristica|omp_lock_t|omp_nest_lock_t|
 | ------------ | --------- | --------------|
+| ------------ | --------- | --------------|
+| ------------ | --------- | --------------|
+| ------------ | --------- | --------------|
 |carac 1 | h | j| 
 ## 🔗 Presentación:
 https://canva.link/0b1230f7sty6oc0
