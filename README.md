@@ -33,7 +33,7 @@ Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-
     -El identificador del hilo dueño se establece en un valor nulo/vacío.
     -El contador de anidamiento se establece explícitamente en 0.
 
-  ### omp_set_lock_ y omp_set_nest_lock
+  ### omp_set_lock y omp_set_nest_lock
 
   Tanto en omp_set_lock_ y omp_set_nest_lock se realiza una inspección del candado, si este esta desbloqueado (0), lo cambia   automaticamente a ocupado (1), y continua con el proceso de forma normal (cambia a un estado de suspended-bloqued).
 
@@ -44,6 +44,18 @@ Diferencia entre omp_lock_t y omp_nest_lock_t (riesgo de deadlock al reentrar).-
   2. Si el candado está ocupado, pero el dueño es EL MISMO hilo: OpenMP lo deja pasar sin detenerlo e incrementa el contador     interno (contador++).
 
   3. Si el candado está ocupado por OTRO hilo: El hilo actual se congela en la cola de espera exactamente igual que en el         candado simple.
+
+  ### omp_unset_lock y omp_unset_nest_lock
+
+  Para el caso de omp_unset_lock esta función hace lo contrario a set, desbloquea el candado pasando de estar activo o         bloqueado (1), a un estado de desbloqueo o disponible, enviando una señal a todos los hilos que estaban en cola (wake-up-    signal), tomando al primer hilo en la fila y ejecutando nuevamente un set. Una nota importante es que solo el hilo que       ejecuta set puedese el que ejecute unset.
+
+  para el caso de omp_unset_nest_lock se realiza la misma lógica de liberación del candado, pero en este caso, se tendra que   ir restando 1 a uno al contador, si este sigue siendo mayor que uno, se continua hasta que llegue a 0, liberando así al      candado, y volviendo a repetir el set con el primer hilo en la fila.
+
+  ### omp_destroy_lock y omp_destroy_nest_lock
+
+  Para ambos casos esta función aplica un free, es decir, libera el espacio de memoria que se utilizo tanto en la cola de      hilos y como en las variables utilizadas.
+
+  NOTA: Solo se puden liberar aquellos candados que esten libres, de lo contrario pude dañar el programa.
 
 ### omp_lock_t
 
