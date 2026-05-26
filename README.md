@@ -112,7 +112,9 @@ El uso de omp_lock_t y omp_nest_lock_t demostró ser crucial para evitar condici
 
 ## Conclusiones 
 <!--cuándo conviene usarlo, para que es mas util, y en que cosas no es tan eficiente-->
+Llegamos a la conclusión de que los locks son fundamentales en la programación paralela ya que gracias a ellos podemos facilitar compras en linea, desde cuando pedimos algo por amazon, mercado libre u otras tiendas en linea, asi como al comprar boletos para el cine, un concierto i incluso unos boletos de avión. Esto hace que la impotancia de los locks explisitos sea tan grande. 
 
+Apesar de ser un recurso maravilloso, tiene sus fallas, como cuando solo necesitamos usar los hilos para leer, en este caso los locks fuerzan barreras de memoria y vacían los búferes del procesador, desactivando las optimizaciones de la CPU. Asi como si un hilo tarda mucho tiempo ejecutando una operación, el resto de hilos que solicitan el mismo lock se suspenden, lo que hace que el programa se vuelva más secuencial.
 ## Referencias
 
 1. El Libro Oficial de los Creadores de OpenMP
