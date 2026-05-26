@@ -13,7 +13,6 @@ Cuando múltiples hilos intentan leer y escribir sobre un mismo recurso al mismo
 
 Para romper con estas limitaciones y otorgar un control milimétrico al programador, OpenMP expone su API de candados de bajo nivel a través de las variables omp_lock_t (candados simples) y omp_nest_lock_t (candados anidados). El propósito de la presente investigación es analizar a fondo la estructura en memoria de ambos mecanismos, describir el comportamiento de sus funciones principales (init, set, unset) y evaluar su relación directa con el enemigo más temido de la concurrencia: el deadlock o bloqueo mutuo.
 ##  Contexto y teoria
-https://claude.ai/share/93749c9f-ddb1-4b70-be9b-0edcb3669374 
 <!--Tipos: omp_lock_t, omp_nest_lock_t.
 La API básica (omp_init_lock, omp_set_lock, omp_unset_lock, omp_destroy_lock).
 Cuándo critical global se queda corto y se necesitan locks independientes.
